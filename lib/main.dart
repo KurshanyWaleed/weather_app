@@ -1,4 +1,8 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
+import 'package:weather_app/views/additional_information.dart';
+import 'package:weather_app/views/current_weather.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,9 +44,33 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: const Color(0xFFf9f9f9),
         elevation: 0.0,
         centerTitle: true,
+        leading: IconButton(
+          onPressed: () {},
+          icon: const Icon(Icons.menu),
+          color: Colors.black,
+        ),
         title: const Text("Weather App", style: TextStyle(color: Colors.black)),
       ),
-      body: Container(),
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          //?custom widget for the app :P
+          currentWeather(
+              icon: Icons.wb_sunny_rounded, temp: "26.6", location: "Tunis"),
+          const SizedBox(
+            height: 25.0,
+          ),
+          const Text("Additional Information",
+              style: TextStyle(
+                  fontWeight: FontWeight.bold, color: Color(0xFF5a5a5a))),
+          const SizedBox(
+            height: 25.0,
+          ),
+          const Divider(),
+          additionalInformation(
+              wind: "24", pressure: "225", humidity: "1024", feelsLike: "24.5")
+        ],
+      ),
     );
   }
 }
