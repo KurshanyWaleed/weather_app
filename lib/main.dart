@@ -6,6 +6,7 @@ import 'package:weather_app/model/weather.dart';
 import 'package:weather_app/services.dart';
 import 'package:weather_app/views/additional_information.dart';
 import 'package:weather_app/views/current_weather.dart';
+import 'package:weather_app/views/nav_bar.dart';
 
 void main() {
   runApp(const MyApp());
@@ -41,7 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   WeatherApiClient weatherApiClient = WeatherApiClient();
   Weather? data = Weather();
   Future<void> getData() async {
-    data = await weatherApiClient.getCurrentWeather('Ariana');
+    data = await weatherApiClient.getCurrentWeather('cuba');
   }
 
   @override
@@ -51,17 +52,23 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   Widget build(BuildContext context) {
+    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
     //! UI of the application !
     return Scaffold(
+        key: _scaffoldKey,
         backgroundColor: const Color(0xFFf9f9f9),
+        drawer: NavBar(),
         appBar: AppBar(
           backgroundColor: const Color(0xFFf9f9f9),
           elevation: 0.0,
           centerTitle: true,
           leading: IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.menu),
             color: Colors.black,
+            icon: const Icon(Icons.menu),
+            onPressed: () {
+              _scaffoldKey.currentState?.openDrawer();
+            },
+            tooltip: MaterialLocalizations.of(context).openAppDrawerTooltip,
           ),
           title:
               const Text("Weather App", style: TextStyle(color: Colors.black)),
@@ -75,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 children: [
                   //?custom widget for the app :P
                   currentWeather(
-                      icon: Icons.wb_sunny_rounded,
+                      ima: "assets/${data!.iconPath}@2x.png",
                       temp: "${data!.temp.toString().split('.')[0]}°",
                       location: "${data!.cityName}"),
                   const SizedBox(
